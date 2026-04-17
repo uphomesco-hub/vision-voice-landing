@@ -804,31 +804,125 @@
     color: var(--muted);
   }
 
-  /* ─────────── PRINT (PDF) ─────────── */
+  /* ─────────── PRINT (PDF pitch deck — one section per landscape page) ─────────── */
   @media print {
-    @page { size: A4; margin: 12mm 10mm; }
-    html, body { background: var(--bg) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; color-adjust: exact; }
-    nav { position: static !important; background: transparent !important; backdrop-filter: none !important; border-bottom: 1px solid var(--hairline); padding: 18px 28px; break-after: avoid; }
-    .nav-links li:not(:last-child) { display: none; }
-    .hero { padding: 48px 28px 32px; }
-    .hero h1 { font-size: 46px; }
-    .hero .subtitle { font-size: 16px; }
-    .demo-wrap { padding: 0 28px; }
-    .demo-viewport { aspect-ratio: 16 / 8; }
-    .section { padding: 48px 28px; }
-    .section-heading { font-size: 34px; }
-    .section-sub { font-size: 15px; margin-bottom: 28px; }
-    .quote-inner { padding: 44px 28px; }
-    .quote-inner p { font-size: 22px; }
-    .approaches { padding: 40px 32px; }
-    .approaches h2 { font-size: 30px; }
-    .final { padding: 56px 28px; }
-    .final h2 { font-size: 38px; }
-    /* Avoid awkward splits */
-    .card, .step, .tool-card, .use-card, .tech-item, .approach-card, .demo-card, .how-visual { break-inside: avoid; page-break-inside: avoid; }
-    .section, .quote-strip, .hero { break-inside: avoid; page-break-inside: avoid; }
+    @page { size: A4 landscape; margin: 12mm; }
+    html, body {
+      background: var(--bg) !important;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+      color-adjust: exact;
+    }
+
+    /* Strip chrome for pitch feel */
+    nav, footer { display: none !important; }
+
+    /* Each top-level block = one page */
+    .hero, .demo-wrap, .quote-strip, .section, .final {
+      break-before: page;
+      page-break-before: always;
+      break-inside: avoid;
+      page-break-inside: avoid;
+      max-width: none;
+    }
+    .hero { break-before: auto; page-break-before: auto; }
+
+    /* HERO (page 1) */
+    .hero { padding: 40px 40px 24px; text-align: center; }
+    .hero .eyebrow { margin-bottom: 18px; }
+    .hero h1 { font-size: 44px; max-width: 900px; }
+    .hero .subtitle { font-size: 15px; max-width: 680px; margin-bottom: 24px; }
     .hero-buttons { gap: 10px; }
-    /* Ensure SVG strokes render in print */
+    .btn-light, .btn-ghost { padding: 10px 20px; font-size: 13px; box-shadow: none !important; }
+
+    /* DEMO CARD */
+    .demo-wrap { padding: 20px 40px; max-width: none; margin: 0 auto; }
+    .demo-card { padding: 10px; max-width: 1000px; margin: 0 auto; }
+    .demo-viewport { aspect-ratio: 24 / 9; }
+    .demo-transcript { gap: 8px; margin-top: 10px; }
+    .tx-card { padding: 10px 12px; }
+    .tx-label { margin-bottom: 4px; font-size: 10px; }
+    .tx-body { font-size: 11.5px; line-height: 1.4; }
+
+    /* QUOTE STRIP */
+    .quote-inner { padding: 60px 40px; }
+    .quote-inner p { font-size: 26px; }
+    .quote-inner cite { margin-top: 14px; font-size: 12px; }
+
+    /* SECTION BASE */
+    .section { padding: 30px 40px; }
+    .section-eyebrow { margin-bottom: 8px; }
+    .section-heading { font-size: 32px; margin-bottom: 10px; }
+    .section-sub { font-size: 14px; max-width: 820px; margin-bottom: 22px; }
+
+    /* WHY NOW — 3 cards */
+    .grid-3 { gap: 12px; }
+    .card { padding: 18px; }
+    .card-number { margin-bottom: 10px; font-size: 11px; }
+    .card-title { font-size: 18px; margin-bottom: 8px; }
+    .card-body { font-size: 12.5px; line-height: 1.45; }
+
+    /* HOW IT WORKS */
+    .how { grid-template-columns: 1.05fr 1fr; gap: 20px; }
+    .how-steps { gap: 10px; }
+    .step { padding: 14px 16px; }
+    .step-index { margin-bottom: 6px; font-size: 10.5px; }
+    .step h3 { font-size: 15px; margin-bottom: 4px; }
+    .step p { font-size: 12px; line-height: 1.45; }
+    .how-visual { padding: 14px; }
+    .pipeline { gap: 6px; }
+    .pipeline-row { padding: 8px 12px; }
+    .pipeline-row .tag { font-size: 10px; padding: 2px 7px; }
+    .pipeline-row .txt { font-size: 11px; line-height: 1.4; }
+    .pipeline-arrow { font-size: 11px; }
+
+    /* TOOLS + OFFLINE */
+    .tools-grid { gap: 12px; grid-template-columns: 1fr 1fr; }
+    .tool-head { padding: 10px 14px; }
+    .tool-title .icon { width: 24px; height: 24px; }
+    .tool-title h4 { font-size: 15px; }
+    .tool-badge { font-size: 9.5px; padding: 2px 8px; }
+    .tool-body { padding: 12px; gap: 8px; }
+    .tool-desc { font-size: 12px; padding: 0; }
+    .tool-block { padding: 9px 12px; }
+    .tool-block-label { margin-bottom: 5px; font-size: 9px; }
+    .tool-block pre { font-size: 10.5px; line-height: 1.4; }
+
+    /* USE CASES — 4 cards */
+    .use-grid { gap: 10px; grid-template-columns: repeat(4, 1fr); }
+    .use-card { padding: 14px; }
+    .use-card h4 { font-size: 14px; margin-bottom: 6px; }
+    .use-card p { font-size: 12px; line-height: 1.4; }
+
+    /* APPROACHES (dark block) */
+    .approaches { padding: 30px 32px; border-radius: 16px; }
+    .approaches h2 { font-size: 26px; margin-bottom: 8px; }
+    .approaches .sub { font-size: 13px; margin-bottom: 20px; }
+    .approach-grid { gap: 12px; }
+    .approach-card { padding: 16px; }
+    .approach-index { margin-bottom: 10px; font-size: 10.5px; }
+    .approach-card h4 { font-size: 15px; margin-bottom: 6px; }
+    .approach-card p { font-size: 12px; line-height: 1.4; }
+
+    /* UNDER THE HOOD */
+    .tech { gap: 18px; grid-template-columns: 1fr 1fr; }
+    .tech-list { gap: 8px; }
+    .tech-item { padding: 10px 14px; gap: 12px; }
+    .tech-item h5 { font-size: 13px; margin-bottom: 2px; }
+    .tech-item p { font-size: 11.5px; line-height: 1.4; }
+    .tech-badge { font-size: 9.5px; padding: 3px 8px; }
+    .code-block { padding: 16px; font-size: 11px; line-height: 1.5; }
+
+    /* FINAL CTA */
+    .final { padding: 70px 40px; }
+    .final h2 { font-size: 40px; margin-bottom: 14px; }
+    .final p { font-size: 15px; margin-bottom: 22px; }
+
+    /* Keep shadows simple so PDF isn't blotchy */
+    .card, .use-card, .step, .tech-item, .approach-card, .tool-card, .how-visual, .demo-card, .tx-card, .eyebrow, .pipeline-row, .approaches {
+      box-shadow: rgba(255, 255, 255, 0.09) 0px 0px 0px 1px !important;
+    }
+    /* Background SVG a bit brighter on paper */
     .demo-bg svg { opacity: 0.7; }
   }
 
@@ -871,6 +965,7 @@
   <ul class="nav-links">
     <li><a href="#how">How it works</a></li>
     <li><a href="#tools">Tools</a></li>
+    <li><a href="#offline">Offline</a></li>
     <li><a href="#why">Why now</a></li>
     <li><a href="#use">Use cases</a></li>
     <li><a href="https://voice-first-repair.emergent.host/repair" target="_blank" rel="noopener" class="nav-cta">Try demo</a></li>
@@ -1136,6 +1231,59 @@
  five seconds to reset, then run a
  water cycle — point it at the spout
  so I can watch."</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────── OFFLINE ─────────── -->
+<section class="section" id="offline">
+  <div class="section-eyebrow">Offline mode</div>
+  <h2 class="section-heading">Breakdown in a dead zone? It still works.</h2>
+  <p class="section-sub">Car stalls out in a no-signal stretch of highway. Factory's on an air-gapped network. Offshore rig, basement server room, hospital that blocks outbound traffic. The two-stage architecture is model-agnostic — swap the cloud backbone for on-device models and the same agent runs with zero bytes of network.</p>
+
+  <div class="tools-grid">
+    <div class="tool-card">
+      <div class="tool-head">
+        <div class="tool-title">
+          <span class="icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 0 1 0 9z"/></svg>
+          </span>
+          <h4>Cloud mode</h4>
+        </div>
+        <span class="tool-badge">Default</span>
+      </div>
+      <div class="tool-body">
+        <p class="tool-desc">Best voice, richest reasoning, live tool calls. What you get when the network is strong.</p>
+        <div class="tool-block">
+          <div class="tool-block-label">Stack</div>
+          <pre><span class="k">voice</span>:       Gemini Live · native audio
+<span class="k">perception</span>:  Gemini 2.5 Flash · strict JSON
+<span class="k">tools</span>:       lookup_manual · web_search
+<span class="k">latency</span>:     ~300 ms to first word</pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="tool-card">
+      <div class="tool-head">
+        <div class="tool-title">
+          <span class="icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M1 9h3M1 15h3M20 9h3M20 15h3"/></svg>
+          </span>
+          <h4>On-device fallback</h4>
+        </div>
+        <span class="tool-badge">Offline · 0 bytes</span>
+      </div>
+      <div class="tool-body">
+        <p class="tool-desc">A laptop, phone, or Pi-class board runs the whole loop locally. Same prompts, same tool schemas, same UI — only the model backbone is swapped.</p>
+        <div class="tool-block">
+          <div class="tool-block-label">Stack</div>
+          <pre><span class="k">voice in</span>:    whisper.cpp · ggml quantized
+<span class="k">perception</span>:  Moondream / Qwen2-VL · on-device VLM
+<span class="k">voice out</span>:   Piper · neural TTS
+<span class="k">manuals</span>:     local vector store, pre-cached</pre>
         </div>
       </div>
     </div>
