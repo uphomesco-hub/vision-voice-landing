@@ -804,6 +804,34 @@
     color: var(--muted);
   }
 
+  /* ─────────── PRINT (PDF) ─────────── */
+  @media print {
+    @page { size: A4; margin: 12mm 10mm; }
+    html, body { background: var(--bg) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; color-adjust: exact; }
+    nav { position: static !important; background: transparent !important; backdrop-filter: none !important; border-bottom: 1px solid var(--hairline); padding: 18px 28px; break-after: avoid; }
+    .nav-links li:not(:last-child) { display: none; }
+    .hero { padding: 48px 28px 32px; }
+    .hero h1 { font-size: 46px; }
+    .hero .subtitle { font-size: 16px; }
+    .demo-wrap { padding: 0 28px; }
+    .demo-viewport { aspect-ratio: 16 / 8; }
+    .section { padding: 48px 28px; }
+    .section-heading { font-size: 34px; }
+    .section-sub { font-size: 15px; margin-bottom: 28px; }
+    .quote-inner { padding: 44px 28px; }
+    .quote-inner p { font-size: 22px; }
+    .approaches { padding: 40px 32px; }
+    .approaches h2 { font-size: 30px; }
+    .final { padding: 56px 28px; }
+    .final h2 { font-size: 38px; }
+    /* Avoid awkward splits */
+    .card, .step, .tool-card, .use-card, .tech-item, .approach-card, .demo-card, .how-visual { break-inside: avoid; page-break-inside: avoid; }
+    .section, .quote-strip, .hero { break-inside: avoid; page-break-inside: avoid; }
+    .hero-buttons { gap: 10px; }
+    /* Ensure SVG strokes render in print */
+    .demo-bg svg { opacity: 0.7; }
+  }
+
   /* ─────────── RESPONSIVE ─────────── */
   @media (max-width: 1024px) {
     .how, .tech, .tools-grid { grid-template-columns: 1fr; }
