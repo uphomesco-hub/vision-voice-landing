@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vision Voice Agent — AI that watches and coaches physical work</title>
+<title>Zeno AI — AI that watches and coaches physical work</title>
 <meta name="description" content="Real-time voice and vision assistant that sees what you see and talks you through the job. Cold perception grounded in every frame, natural voice on top.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -38,6 +38,8 @@
     --font-display: 'Cal Sans', system-ui, sans-serif;
     --font-body: 'Inter', -apple-system, system-ui, 'Segoe UI', sans-serif;
     --font-mono: 'Roboto Mono', ui-monospace, monospace;
+    --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+    --ease-soft: cubic-bezier(0.32, 0.72, 0, 1);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -52,9 +54,11 @@
     line-height: 1.50;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
   }
 
   a { color: inherit; text-decoration: none; }
+  ::selection { background: rgba(112, 191, 255, 0.24); color: var(--text-deep); }
 
   /* ─────────── NAV ─────────── */
   nav {
@@ -69,6 +73,7 @@
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
     border-bottom: 1px solid var(--hairline);
+    animation: navDrop 620ms var(--ease-soft) both;
   }
   .nav-brand {
     display: flex;
@@ -85,6 +90,7 @@
     border-radius: 9999px;
     background: var(--text-deep);
     box-shadow: rgba(0,0,0,0.4) 0px 0px 0px 2px inset;
+    animation: dotBreathe 2.8s ease-in-out infinite;
   }
   .nav-links {
     display: flex;
@@ -96,9 +102,9 @@
     font-size: 14px;
     font-weight: 500;
     color: var(--text);
-    transition: opacity 0.15s;
+    transition: opacity 0.18s var(--ease-out), transform 0.18s var(--ease-out);
   }
-  .nav-links a:hover { opacity: 0.7; }
+  .nav-links a:hover { opacity: 0.7; transform: translateY(-1px); }
   /* Bumped specificity so .nav-links a rule doesn't override the CTA text color */
   .nav-links a.nav-cta {
     background: var(--text-deep);
@@ -109,10 +115,11 @@
     font-weight: 600;
     border: none;
     cursor: pointer;
-    transition: opacity 0.15s;
+    transition: opacity 0.18s var(--ease-out), transform 0.18s var(--ease-out);
     box-shadow: rgba(0,0,0,0.15) 0px 2px 0px 0px inset;
   }
-  .nav-links a.nav-cta:hover { opacity: 0.85; }
+  .nav-links a.nav-cta:hover { opacity: 0.85; transform: translateY(-1px); }
+  .nav-links a.nav-cta:active { transform: translateY(0) scale(0.98); }
 
   /* ─────────── BUTTONS ─────────── */
   .btn-light {
@@ -125,10 +132,11 @@
     font-family: var(--font-body);
     border: none;
     cursor: pointer;
-    transition: opacity 0.15s;
+    transition: opacity 0.18s var(--ease-out), transform 0.18s var(--ease-out), box-shadow 0.18s var(--ease-out);
     display: inline-block;
   }
-  .btn-light:hover { opacity: 0.85; }
+  .btn-light:hover { opacity: 0.85; transform: translateY(-2px); }
+  .btn-light:active { transform: translateY(0) scale(0.98); }
   .btn-ghost {
     background: transparent;
     color: var(--text);
@@ -138,11 +146,12 @@
     font-weight: 500;
     font-family: var(--font-body);
     cursor: pointer;
-    transition: background 0.15s;
+    transition: background 0.18s var(--ease-out), transform 0.18s var(--ease-out), box-shadow 0.18s var(--ease-out);
     display: inline-block;
     box-shadow: var(--shadow-card);
   }
-  .btn-ghost:hover { background: var(--white-05); box-shadow: var(--shadow-card-hover); }
+  .btn-ghost:hover { background: var(--white-05); box-shadow: var(--shadow-card-hover); transform: translateY(-2px); }
+  .btn-ghost:active { transform: translateY(0) scale(0.98); }
 
   /* ─────────── HERO ─────────── */
   .hero {
@@ -151,6 +160,15 @@
     max-width: 1100px;
     margin: 0 auto;
   }
+  .hero .eyebrow,
+  .hero h1,
+  .hero .subtitle,
+  .hero-buttons {
+    animation: heroRise 760ms var(--ease-soft) both;
+  }
+  .hero h1 { animation-delay: 90ms; }
+  .hero .subtitle { animation-delay: 180ms; }
+  .hero-buttons { animation-delay: 270ms; }
   .eyebrow {
     display: inline-block;
     font-family: var(--font-body);
@@ -203,7 +221,9 @@
     border-radius: 16px;
     padding: 14px;
     box-shadow: var(--shadow-card);
+    transition: transform 0.28s var(--ease-out), box-shadow 0.28s var(--ease-out);
   }
+  .demo-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-card-hover); }
   .demo-viewport {
     position: relative;
     background: #000;
@@ -284,6 +304,7 @@
     transform: translate(-50%, -50%);
     z-index: 2;
     box-shadow: 0 0 0 4px rgba(255,255,255,0.06);
+    animation: targetDrift 4.8s ease-in-out infinite;
   }
   .demo-crosshair::before, .demo-crosshair::after {
     content: "";
@@ -304,7 +325,9 @@
     border-radius: 10px;
     box-shadow: var(--shadow-card);
     background: var(--surface-2);
+    transition: transform 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out);
   }
+  .tx-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-card-hover); }
   .tx-label {
     font-family: var(--font-body);
     font-size: 11px;
@@ -401,9 +424,9 @@
     padding: 28px;
     border-radius: 12px;
     box-shadow: var(--shadow-card);
-    transition: box-shadow 0.2s;
+    transition: transform 0.22s var(--ease-out), box-shadow 0.22s var(--ease-out);
   }
-  .card:hover { box-shadow: var(--shadow-card-hover); }
+  .card:hover { transform: translateY(-3px); box-shadow: var(--shadow-card-hover); }
   .card-number {
     font-family: var(--font-mono);
     font-size: 13px;
@@ -440,7 +463,9 @@
     border-radius: 12px;
     box-shadow: var(--shadow-card);
     background: var(--surface);
+    transition: transform 0.22s var(--ease-out), box-shadow 0.22s var(--ease-out);
   }
+  .step:hover { transform: translateY(-2px); box-shadow: var(--shadow-card-hover); }
   .step-index {
     font-family: var(--font-mono);
     font-size: 12px;
@@ -470,7 +495,9 @@
     border-radius: 16px;
     box-shadow: var(--shadow-card);
     background: var(--surface);
+    transition: transform 0.22s var(--ease-out), box-shadow 0.22s var(--ease-out);
   }
+  .how-visual:hover { transform: translateY(-2px); box-shadow: var(--shadow-card-hover); }
   .pipeline {
     display: flex;
     flex-direction: column;
@@ -484,7 +511,9 @@
     border-radius: 10px;
     background: var(--surface-2);
     box-shadow: rgba(255,255,255,0.04) 0px 0px 0px 1px;
+    transition: transform 0.2s var(--ease-out), background 0.2s var(--ease-out);
   }
+  .pipeline-row:hover { transform: translateX(4px); background: rgba(255,255,255,0.075); }
   .pipeline-row .tag {
     font-family: var(--font-mono);
     font-size: 11px;
@@ -524,7 +553,9 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    transition: transform 0.24s var(--ease-out), box-shadow 0.24s var(--ease-out);
   }
+  .tool-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-card-hover); }
   .tool-head {
     display: flex;
     align-items: center;
@@ -613,7 +644,9 @@
     border-radius: 12px;
     box-shadow: var(--shadow-card);
     background: var(--surface);
+    transition: transform 0.22s var(--ease-out), box-shadow 0.22s var(--ease-out);
   }
+  .use-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-card-hover); }
   .use-card h4 {
     font-family: var(--font-display);
     font-size: 17px;
@@ -668,7 +701,9 @@
     padding: 26px;
     border-radius: 12px;
     box-shadow: rgba(255,255,255,0.06) 0px 0px 0px 1px;
+    transition: transform 0.22s var(--ease-out), box-shadow 0.22s var(--ease-out);
   }
+  .approach-card:hover { transform: translateY(-3px); box-shadow: rgba(255,255,255,0.10) 0px 0px 0px 1px; }
   .approach-index {
     font-family: var(--font-mono);
     font-size: 12px;
@@ -713,7 +748,9 @@
     border-radius: 10px;
     box-shadow: var(--shadow-card);
     background: var(--surface);
+    transition: transform 0.22s var(--ease-out), box-shadow 0.22s var(--ease-out);
   }
+  .tech-item:hover { transform: translateX(4px); box-shadow: var(--shadow-card-hover); }
   .tech-badge {
     font-family: var(--font-mono);
     font-size: 11px;
@@ -756,6 +793,83 @@
   .code-block .s { color: #c7e7c5; }
   .code-block .c { color: #6a6a6a; }
   .code-block .n { color: #ffc89a; }
+
+  /* ─────────── MOTION LAYER ─────────── */
+  .will-reveal {
+    opacity: 0;
+    transform: translateY(22px);
+    transition:
+      opacity 640ms var(--ease-out),
+      transform 640ms var(--ease-out);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+  .will-reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .card.will-reveal.is-visible:hover,
+  .tool-card.will-reveal.is-visible:hover,
+  .use-card.will-reveal.is-visible:hover,
+  .approach-card.will-reveal.is-visible:hover {
+    transform: translateY(-3px);
+  }
+  .step.will-reveal.is-visible:hover,
+  .tx-card.will-reveal.is-visible:hover {
+    transform: translateY(-2px);
+  }
+  .pipeline-row.will-reveal.is-visible:hover,
+  .tech-item.will-reveal.is-visible:hover {
+    transform: translateX(4px);
+  }
+  .demo-bg svg {
+    animation: visualFloat 8s ease-in-out infinite;
+    transform-origin: center;
+  }
+  .pipeline-arrow {
+    animation: arrowPulse 1.8s ease-in-out infinite;
+  }
+  .quote-inner p {
+    text-wrap: balance;
+  }
+
+  @keyframes navDrop {
+    from { opacity: 0; transform: translateY(-16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes heroRise {
+    from { opacity: 0; transform: translateY(18px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes dotBreathe {
+    0%, 100% { opacity: 0.6; box-shadow: rgba(0,0,0,0.4) 0px 0px 0px 2px inset, 0 0 0 0 rgba(255,255,255,0.18); }
+    50% { opacity: 1; box-shadow: rgba(0,0,0,0.4) 0px 0px 0px 2px inset, 0 0 0 7px rgba(255,255,255,0.04); }
+  }
+  @keyframes targetDrift {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); }
+    50% { transform: translate(calc(-50% + 8px), calc(-50% - 5px)) scale(1.04); }
+  }
+  @keyframes visualFloat {
+    0%, 100% { transform: translateY(0) scale(1); opacity: 0.55; }
+    50% { transform: translateY(-8px) scale(1.01); opacity: 0.66; }
+  }
+  @keyframes arrowPulse {
+    0%, 100% { opacity: 0.38; transform: translateY(0); }
+    50% { opacity: 0.86; transform: translateY(2px); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 1ms !important;
+      animation-iteration-count: 1 !important;
+      scroll-behavior: auto !important;
+      transition-duration: 1ms !important;
+    }
+    .will-reveal {
+      opacity: 1;
+      transform: none;
+    }
+  }
 
   /* ─────────── FINAL CTA ─────────── */
   .final {
@@ -961,7 +1075,7 @@
 
 <!-- ─────────── NAV ─────────── -->
 <nav>
-  <a href="#" class="nav-brand"><span class="dot"></span>Vision Voice Agent</a>
+  <a href="#" class="nav-brand"><span class="dot"></span>Zeno AI</a>
   <ul class="nav-links">
     <li><a href="#how">How it works</a></li>
     <li><a href="#tools">Tools</a></li>
@@ -1414,9 +1528,48 @@
 
 <!-- ─────────── FOOTER ─────────── -->
 <footer>
-  <span class="foot-brand">Vision Voice Agent</span>
+  <span class="foot-brand">Zeno AI</span>
   <span class="foot-meta">Real-time voice + vision · Gemini Live + Flash · Built for the field</span>
 </footer>
 
+<script>
+  const revealTargets = [
+    '.demo-wrap',
+    '.quote-strip',
+    '.section',
+    '.final',
+    '.card',
+    '.step',
+    '.pipeline-row',
+    '.tool-card',
+    '.use-card',
+    '.approach-card',
+    '.tech-item',
+    '.tx-card',
+    '.code-block'
+  ];
+
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const targets = [...document.querySelectorAll(revealTargets.join(','))];
+
+  targets.forEach((el, index) => {
+    el.classList.add('will-reveal');
+    el.style.setProperty('--reveal-delay', `${Math.min(index % 6, 5) * 45}ms`);
+  });
+
+  if (prefersReducedMotion || !('IntersectionObserver' in window)) {
+    targets.forEach((el) => el.classList.add('is-visible'));
+  } else {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      });
+    }, { rootMargin: '0px 0px -12% 0px', threshold: 0.12 });
+
+    targets.forEach((el) => observer.observe(el));
+  }
+</script>
 </body>
 </html>
